@@ -16,12 +16,24 @@ export default function Home() {
 
   const [abilitiesMap, setAbilitiesMap] = useState(defaultAbilitiesMap)
 
+  const incrementAbility = (ability: string): void => {
+    console.log(`++${ability}`);
+  }
+  const decrementAbility = (ability: string): void => {
+    console.log(`--${ability}`);
+  }
+
+
   // Inefficient: currently causes rerender of whole table on every single ability update
   return (
     <>
       <h1 className='page-title'>Welcome to The Secret Power of Humans!</h1>
       <h2 className='page-subtitle'>A game about kicking ass and taking names</h2>
-      <AbilitiesTable AbilitiesMap={abilitiesMap}></AbilitiesTable>
+      <AbilitiesTable
+        AbilitiesMap={abilitiesMap}
+        incrementAbility={incrementAbility}
+        decrementAbility={decrementAbility}
+      ></AbilitiesTable>
     </>
   );
 }
