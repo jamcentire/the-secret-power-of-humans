@@ -1,0 +1,15 @@
+.abilities-table {
+    display: grid;
+    margin: auto;
+    font-size: large;
+    grid-template-columns: repeat(3, 10em);
+    grid-template-rows: repeat(3, 3em);
+    width: fit-content;
+    align-self: center;
+}
+
+.abilities-cell {
+    display: grid;
+    grid-template-columns: 7.5em auto;
+
+}
