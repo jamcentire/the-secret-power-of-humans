@@ -12,3 +12,6 @@ export const ABILITIES = {
   EMPATHY: 'Empathy',
   DETERMINATION: 'Determination',
 }
+
+export const ABILITIES_LOWER_BOUND = -2;
+export const ABILITIES_UPPER_BOUND = 4;

@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
-import { ABILITIES } from './constants';
+import { ABILITIES, ABILITIES_LOWER_BOUND, ABILITIES_UPPER_BOUND } from './constants';
 
 ////// ACTIONS
 //// 'abilities/increment'
@@ -9,15 +9,19 @@ const reducer = (state: any, action: any) => {
   // TODO add default/fail case
   // TODO (bug fix): these action triggers twice on each single click
   switch (action.type) {
+
     case 'abilities/increment': {
-      console.log(`increment ${action.payload}`);
-      return state;
-      // return {...state, ability = state[ability] + 1};
+      if (state.get(action.payload) >= ABILITIES_UPPER_BOUND) {
+        return state;
+      }
+      return new Map([...state, [action.payload, state.get(action.payload) + 1]]);
     }
+
     case 'abilities/decrement': {
-      console.log(`decrement ${action.payload}`);
-      return state;
-      // return {...state, ability = state[ability] + 1};
+      if (state.get(action.payload) <= ABILITIES_LOWER_BOUND) {
+        return state;
+      }
+      return new Map([...state, [action.payload, state.get(action.payload) - 1]]);
     }
   }
 }
