@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
-import { ABILITIES, ABILITIES_LOWER_BOUND, ABILITIES_UPPER_BOUND } from './constants';
+import { ABILITIES } from './constants';
 
 ////// ACTIONS
 //// 'abilities/increment'
@@ -11,38 +11,40 @@ const reducer = (state: any, action: any) => {
   switch (action.type) {
 
     case 'abilities/increment': {
-      if (state.get(action.payload) >= ABILITIES_UPPER_BOUND) {
-        return state;
-      }
       return new Map([...state, [action.payload, state.get(action.payload) + 1]]);
     }
 
     case 'abilities/decrement': {
-      if (state.get(action.payload) <= ABILITIES_LOWER_BOUND) {
-        return state;
-      }
       return new Map([...state, [action.payload, state.get(action.payload) - 1]]);
     }
+
   }
 }
 
-// TODO create type for context/state
-const AbilitiesContext = createContext({} as any);
+// TODO create type for dispatch?
+const AbilitiesContext = createContext({} as Map<string, number>);
+const DispatchContext = createContext({} as any);
 
 export const useAbilitiesContext = () => {
-  return useContext(AbilitiesContext)
+  return useContext(AbilitiesContext);
 }
 
-const defaultAbilitiesMap = new Map<string, number>(
-  Object.values(ABILITIES).map((ability) => [ability, 0])
-)
+export const useAbilitiesDispatch = () => {
+  return useContext(DispatchContext);
+}
 
 export const AbilitiesContextProvider = ({children}: any) => {
+  const defaultAbilitiesMap = new Map<string, number>(
+    Object.values(ABILITIES).map((ability) => [ability, 0])
+  )
+
   const [state, dispatch] = useReducer(reducer, defaultAbilitiesMap)
 
   return (
-    <AbilitiesContext.Provider value={{state, dispatch}}>
-      {children}
+    <AbilitiesContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        {children}
+      </DispatchContext.Provider>
     </AbilitiesContext.Provider>
   );
 }

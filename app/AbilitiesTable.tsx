@@ -1,8 +1,16 @@
+'use client'
+
 import './AbilitiesTable.css';
 
 import { CircleMinus, CirclePlus } from 'lucide-react';
 
-import { useAbilitiesContext } from './AbilitiesContext';
+import { useAbilitiesContext, useAbilitiesDispatch } from './AbilitiesContext';
+import { useState } from 'react';
+import {
+  ABILITIES_LOWER_BOUND,
+  ABILITIES_UPPER_BOUND,
+  ABILITIES_STARTING_POINTS
+} from './constants';
 
 interface AbilitiesCellProps {
   ability: string;
@@ -23,17 +31,27 @@ const AbilitiesCell = (props: AbilitiesCellProps) => {
 }
 
 export const AbilitiesTable = () => {
-  const context = useAbilitiesContext()
-  const abilitiesMap = context.state;
-  const dispatch = context.dispatch;
+  const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
 
-  const incrementAbility = (ability: string): void => {
+  const abilitiesMap = useAbilitiesContext()
+  const dispatch = useAbilitiesDispatch();
+
+  const tryIncrementAbility = (ability: string): void => {
+    if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
+      return
+    }
+    setAvailablePoints(availablePoints - 1)
     dispatch({
       type: 'abilities/increment',
       payload: ability
     })
   }
-  const decrementAbility = (ability: string): void => {
+
+  const tryDecrementAbility = (ability: string): void => {
+    if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
+      return
+    }
+    setAvailablePoints(availablePoints + 1)
     dispatch({
       type: 'abilities/decrement',
       payload: ability
@@ -42,17 +60,20 @@ export const AbilitiesTable = () => {
 
 
   return (
-    <div className='abilities-table'>
-      {[...abilitiesMap].map((entry) => {
-        return <div key={`${entry[0]}-${entry[1]}`}>
-          <AbilitiesCell
-            ability={entry[0]}
-            value={entry[1]}
-            increment={() => incrementAbility(entry[0])}
-            decrement={() => decrementAbility(entry[0])}
-          ></AbilitiesCell>
-        </div>
-      })}
-    </div>
+    <>
+      <div className='abilities-table'>
+        {[...abilitiesMap].map((entry) => {
+          return <div key={`${entry[0]}-${entry[1]}`}>
+            <AbilitiesCell
+              ability={entry[0]}
+              value={entry[1]}
+              increment={() => tryIncrementAbility(entry[0])}
+              decrement={() => tryDecrementAbility(entry[0])}
+            ></AbilitiesCell>
+          </div>
+        })}
+      </div>
+      <div>{availablePoints}</div>
+    </>
   )
 }
