@@ -4,60 +4,37 @@ import './AbilitiesTable.css';
 
 import { CircleMinus, CirclePlus } from 'lucide-react';
 
-import { useAbilitiesContext, useAbilitiesDispatch } from './AbilitiesContext';
-import { useState } from 'react';
-import {
-  ABILITIES_LOWER_BOUND,
-  ABILITIES_UPPER_BOUND,
-  ABILITIES_STARTING_POINTS
-} from './constants';
+import { useAbilitiesContext } from './AbilitiesContext';
 
 interface AbilitiesCellProps {
   ability: string;
   value: number;
-  increment: () => void;
-  decrement: () => void;
+  triggerIncrement: () => void;
+  triggerDecrement: () => void;
 }
 
 const AbilitiesCell = (props: AbilitiesCellProps) => {
+  // TODO: move the inc/dec toggle into its own component, to be reused by Aspects
   return (
     <div className='abilities-cell'>
       <div>{props.ability}</div>
-      <CircleMinus onClick={props.decrement}/>
+      <CircleMinus onClick={props.triggerDecrement}/>
       <div>{props.value}</div>
-      <CirclePlus onClick={props.increment}/>
+      <CirclePlus onClick={props.triggerIncrement}/>
     </div>
   )
 }
 
-export const AbilitiesTable = () => {
-  const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
+// inc/dec shouldn't really be props of the table, since the non-creation table doesn't have them,
+// but idfk what do with this right now. Problem for future Jacob (you got this, brother)
+interface AbilitiesTableProps {
+  availablePoints: number;
+  triggerDecrementAbility: (ability: string) => void;
+  triggerIncrementAbility: (ability: string) => void;
+}
 
-  const abilitiesMap = useAbilitiesContext()
-  const dispatch = useAbilitiesDispatch();
-
-  const tryIncrementAbility = (ability: string): void => {
-    if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
-      return
-    }
-    setAvailablePoints(availablePoints - 1)
-    dispatch({
-      type: 'abilities/increment',
-      payload: ability
-    })
-  }
-
-  const tryDecrementAbility = (ability: string): void => {
-    if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
-      return
-    }
-    setAvailablePoints(availablePoints + 1)
-    dispatch({
-      type: 'abilities/decrement',
-      payload: ability
-    })
-  }
-
+export const AbilitiesTable = ( props: AbilitiesTableProps ) => {
+  const abilitiesMap = useAbilitiesContext();
 
   return (
     <>
@@ -67,13 +44,12 @@ export const AbilitiesTable = () => {
             <AbilitiesCell
               ability={entry[0]}
               value={entry[1]}
-              increment={() => tryIncrementAbility(entry[0])}
-              decrement={() => tryDecrementAbility(entry[0])}
+              triggerIncrement={() => props.triggerIncrementAbility(entry[0])}
+              triggerDecrement={() => props.triggerDecrementAbility(entry[0])}
             ></AbilitiesCell>
           </div>
         })}
       </div>
-      <div>{availablePoints}</div>
     </>
   )
 }
