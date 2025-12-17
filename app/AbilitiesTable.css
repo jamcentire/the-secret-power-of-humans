@@ -6,7 +6,7 @@
     grid-template-rows: repeat(3, 3em);
     width: fit-content;
     align-self: center;
-    padding-top: 5em;
+    padding: auto;
 }
 
 .abilities-cell {
