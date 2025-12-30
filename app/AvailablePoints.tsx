@@ -9,7 +9,7 @@ interface AvailablePointsProps {
 export const AvailablePoints = (props: AvailablePointsProps) => {
   return (
     <div className='available-points-container'>
-      <div className='available-points-text'>Points to spend:</div>
+      <div className='available-points-text'>Points remaining:</div>
       <div className='available-points-value'>{props.availablePoints}</div>
     </div>
   )
