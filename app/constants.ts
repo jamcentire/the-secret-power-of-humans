@@ -17,3 +17,7 @@ export const ABILITIES = {
 export const ABILITIES_LOWER_BOUND = -2;
 export const ABILITIES_UPPER_BOUND = 4;
 export const ABILITIES_STARTING_POINTS = 6;
+
+export const ASPECTS_LOWER_BOUND = -2;
+export const ASPECTS_UPPER_BOUND = 4;
+export const ASPECTS_STARTING_POINTS = 6;

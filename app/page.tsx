@@ -4,17 +4,21 @@ import './globals.css';
 import './page.css';
 
 import { AbilitiesCreator } from './AbilitiesCreator'
-import { AbilitiesContextProvider } from './AbilitiesContext';
+import { AspectsCreator } from './AspectsCreator'
+import { CharacterCreatorContextProvider } from './CharacterCreatorContext';
 
 export default function Home() {
   return (
     <>
       <h1 className='page-title'>Welcome to The Secret Power of Humans!</h1>
       <h2 className='page-subtitle'>A game about kicking ass and taking names</h2>
-      <AbilitiesContextProvider children={
-        <AbilitiesCreator></AbilitiesCreator>
+      <CharacterCreatorContextProvider children={
+        <>
+          <AbilitiesCreator></AbilitiesCreator>
+          <AspectsCreator></AspectsCreator>
+        </>
       }
-      ></AbilitiesContextProvider>
+      ></CharacterCreatorContextProvider>
     </>
   );
 }

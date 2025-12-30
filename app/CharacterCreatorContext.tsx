@@ -1,11 +1,15 @@
 import { createContext, useContext, useReducer } from 'react';
 import { ABILITIES } from './constants';
 
-////// ACTIONS
-//// 'abilities/increment'
-// payload = ability name (string)
+type Action = 
+  | { type: 'abilities/increment'; payload: { name: string } }
+  | { type: 'abilities/decrement'; payload: { name: string } }
+  | { type: 'aspects/create'; payload: { name: string } }
+  | { type: 'aspects/delete'; payload: { name: string } }
+  | { type: 'aspects/increment'; payload: { name: string } }
+  | { type: 'aspects/decrement'; payload: { name: string } }
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: any, action: Action) => {
   // TODO add default/fail case
   // TODO (bug fix): these action triggers twice on each single click
   switch (action.type) {
@@ -33,7 +37,7 @@ export const useAbilitiesDispatch = () => {
   return useContext(DispatchContext);
 }
 
-export const AbilitiesContextProvider = ({children}: any) => {
+export const CharacterCreatorContextProvider = ({children}: any) => {
   const defaultAbilitiesMap = new Map<string, number>(
     Object.values(ABILITIES).map((ability) => [ability, 0])
   )

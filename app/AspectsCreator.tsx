@@ -1,11 +1,11 @@
 'use client'
 
-import './AbilitiesCreator.css'
+import './AspectsCreator.css'
 
 import {
-  ABILITIES_STARTING_POINTS,
-  ABILITIES_LOWER_BOUND,
-  ABILITIES_UPPER_BOUND
+  ASPECTS_STARTING_POINTS,
+  ASPECTS_LOWER_BOUND,
+  ASPECTS_UPPER_BOUND
 } from './constants'
 
 import { useState } from 'react';
@@ -14,21 +14,17 @@ import { AbilitiesTable } from './AbilitiesTable';
 import { AvailablePoints } from './AvailablePoints';
 
 const ABILITIES_TEXT = `
-Abilities represent your character's innate capacity for physical, mental and emotional feats. Choose your starting scores here. Scores range from -2 (terrible) to 4 (exceptional).
-
-These scores represent the abilities of normal people, which you will be playing! Albert Einstein would probably have an Intelligence of 6, and Hafthor Bjornson
-would have a strength of 6. For your case, the max score of 4 represents a strong enough ability that you don't know anybody who's better than you at this.
+Aspects are your life experiences and the hella cool shit you can do
 `
 
-export const AbilitiesCreator = () => {
-  const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
-  const abilitiesMap = useAbilitiesContext();
+export const AspectsCreator = () => {
+  const [availablePoints, setAvailablePoints] = useState(ASPECTS_STARTING_POINTS)
   const dispatch = useAbilitiesDispatch();
 
   const tryIncrementAbility = (ability: string): void => {
-    if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
-      return
-    }
+    // if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
+    //   return
+    // }
     setAvailablePoints(availablePoints - 1)
     dispatch({
       type: 'abilities/increment',
@@ -37,9 +33,9 @@ export const AbilitiesCreator = () => {
   }
 
   const tryDecrementAbility = (ability: string): void => {
-    if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
-      return
-    }
+    // //  if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
+    // //    return
+    // //  }
     setAvailablePoints(availablePoints + 1)
     dispatch({
       type: 'abilities/decrement',

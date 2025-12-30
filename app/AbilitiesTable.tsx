@@ -4,7 +4,7 @@ import './AbilitiesTable.css';
 
 
 import { ABILITIES } from './constants';
-import { useAbilitiesContext } from './AbilitiesContext';
+import { useAbilitiesContext } from './CharacterCreatorContext';
 import { NumberInceDec } from './NumberIncDec';
 
 interface AbilitiesCellProps {
