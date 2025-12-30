@@ -2,14 +2,14 @@
 
 import './AbilitiesTable.css';
 
-import { CircleMinus, CirclePlus } from 'lucide-react';
 
 import { ABILITIES } from './constants';
 import { useAbilitiesContext } from './AbilitiesContext';
+import { NumberInceDec } from './NumberIncDec';
 
 interface AbilitiesCellProps {
   ability: string;
-  value: number;
+  level: number;
   triggerIncrement: () => void;
   triggerDecrement: () => void;
 }
@@ -19,9 +19,11 @@ const AbilitiesCell = (props: AbilitiesCellProps) => {
   return (
     <div className='abilities-cell'>
       <div>{props.ability}</div>
-      <CircleMinus onClick={props.triggerDecrement}/>
-      <div>{props.value}</div>
-      <CirclePlus onClick={props.triggerIncrement}/>
+      <NumberInceDec
+        value={props.level} // TODO props drilling smell
+        triggerIncrement={props.triggerIncrement}
+        triggerDecrement={props.triggerDecrement}
+      />
     </div>
   )
 }
@@ -58,7 +60,7 @@ export const AbilitiesTable = ( props: AbilitiesTableProps ) => {
         return <div key={`${ability}-${abilitiesMap.get(ability)}`}>
           <AbilitiesCell
             ability={ability}
-            value={abilitiesMap.get(ability)}
+            level={abilitiesMap.get(ability) ?? 0}
             triggerIncrement={() => props.triggerIncrementAbility(ability)}
             triggerDecrement={() => props.triggerDecrementAbility(ability)}
           ></AbilitiesCell>
