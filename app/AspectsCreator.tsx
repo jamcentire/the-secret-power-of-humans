@@ -9,7 +9,7 @@ import {
 } from './constants'
 
 import { useState } from 'react';
-import { useAbilitiesContext, useAbilitiesDispatch } from './CharacterCreatorContext';
+import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
 import { AbilitiesTable } from './AbilitiesTable';
 import { AvailablePoints } from './AvailablePoints';
 
@@ -19,7 +19,7 @@ Aspects are your life experiences and the hella cool shit you can do
 
 export const AspectsCreator = () => {
   const [availablePoints, setAvailablePoints] = useState(ASPECTS_STARTING_POINTS)
-  const dispatch = useAbilitiesDispatch();
+  const dispatch = useCharacterCreatorDispatch();
 
   const tryIncrementAbility = (ability: string): void => {
     // if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {

@@ -4,7 +4,7 @@ import './AbilitiesTable.css';
 
 
 import { ABILITIES } from './constants';
-import { useAbilitiesContext } from './CharacterCreatorContext';
+import { useCharacterCreatorContext } from './CharacterCreatorContext';
 import { NumberInceDec } from './NumberIncDec';
 
 interface AbilitiesCellProps {
@@ -52,15 +52,15 @@ interface AbilitiesTableProps {
 }
 
 export const AbilitiesTable = ( props: AbilitiesTableProps ) => {
-  const abilitiesMap = useAbilitiesContext();
+  const characterState = useCharacterCreatorContext();
 
   return (
     <div className='abilities-table'>
       {[...ABILITIES_IN_TABLE_ORDER].map((ability) => {
-        return <div key={`${ability}-${abilitiesMap.get(ability)}`}>
+        return <div key={`${ability}-${characterState.abilities.get(ability)}`}>
           <AbilitiesCell
             ability={ability}
-            level={abilitiesMap.get(ability) ?? 0}
+            level={characterState.abilities.get(ability) ?? 0}
             triggerIncrement={() => props.triggerIncrementAbility(ability)}
             triggerDecrement={() => props.triggerDecrementAbility(ability)}
           ></AbilitiesCell>

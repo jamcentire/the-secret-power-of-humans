@@ -9,7 +9,7 @@ import {
 } from './constants'
 
 import { useState } from 'react';
-import { useAbilitiesContext, useAbilitiesDispatch } from './CharacterCreatorContext';
+import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
 import { AbilitiesTable } from './AbilitiesTable';
 import { AvailablePoints } from './AvailablePoints';
 
@@ -22,8 +22,8 @@ would have a strength of 6. For your case, the max score of 4 represents a stron
 
 export const AbilitiesCreator = () => {
   const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
-  const abilitiesMap = useAbilitiesContext();
-  const dispatch = useAbilitiesDispatch();
+  const abilitiesMap = useCharacterCreatorContext().abilities;
+  const dispatch = useCharacterCreatorDispatch();
 
   const tryIncrementAbility = (ability: string): void => {
     if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
@@ -32,7 +32,7 @@ export const AbilitiesCreator = () => {
     setAvailablePoints(availablePoints - 1)
     dispatch({
       type: 'abilities/increment',
-      payload: ability
+      payload: {name: ability}
     })
   }
 
@@ -43,7 +43,7 @@ export const AbilitiesCreator = () => {
     setAvailablePoints(availablePoints + 1)
     dispatch({
       type: 'abilities/decrement',
-      payload: ability
+      payload: {name: ability}
     })
   }
 

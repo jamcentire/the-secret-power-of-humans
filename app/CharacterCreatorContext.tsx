@@ -9,32 +9,53 @@ type Action =
   | { type: 'aspects/increment'; payload: { name: string } }
   | { type: 'aspects/decrement'; payload: { name: string } }
 
-const reducer = (state: any, action: Action) => {
+interface State {
+  abilities:  Map<string, number>
+  aspects:  Map<string, number>
+}
+
+const reducer = (state: State, action: Action) => {
   // TODO add default/fail case
   // TODO (bug fix): these action triggers twice on each single click
   switch (action.type) {
 
     case 'abilities/increment': {
-      return new Map([...state, [action.payload, state.get(action.payload) + 1]]);
+      const newAbilities = new Map(state.abilities).set(
+        action.payload.name,
+        (state.abilities.get(action.payload.name) ?? 0) + 1
+      );
+
+      return {
+        ...state,
+        abilities: newAbilities
+      }
     }
 
     case 'abilities/decrement': {
-      return new Map([...state, [action.payload, state.get(action.payload) - 1]]);
+      const newAbilities = new Map(state.abilities).set(
+        action.payload.name,
+        (state.abilities.get(action.payload.name) ?? 0) - 1
+      );
+
+      return {
+        ...state,
+        abilities: newAbilities
+      }
     }
 
   }
 }
 
 // TODO create type for dispatch?
-const AbilitiesContext = createContext({} as Map<string, number>);
-const DispatchContext = createContext({} as any);
+const CharacterCreatorContext = createContext({} as State);
+const CharacterCreatorDispatchContext = createContext({} as any);
 
-export const useAbilitiesContext = () => {
-  return useContext(AbilitiesContext);
+export const useCharacterCreatorContext = () => {
+  return useContext(CharacterCreatorContext);
 }
 
-export const useAbilitiesDispatch = () => {
-  return useContext(DispatchContext);
+export const useCharacterCreatorDispatch = () => {
+  return useContext(CharacterCreatorDispatchContext);
 }
 
 export const CharacterCreatorContextProvider = ({children}: any) => {
@@ -42,13 +63,18 @@ export const CharacterCreatorContextProvider = ({children}: any) => {
     Object.values(ABILITIES).map((ability) => [ability, 0])
   )
 
-  const [state, dispatch] = useReducer(reducer, defaultAbilitiesMap)
+  const defaultState = {
+    abilities: defaultAbilitiesMap,
+    aspects: new Map()
+  }
+
+  const [state, dispatch] = useReducer(reducer, defaultState)
 
   return (
-    <AbilitiesContext.Provider value={state}>
-      <DispatchContext.Provider value={dispatch}>
+    <CharacterCreatorContext.Provider value={state}>
+      <CharacterCreatorDispatchContext.Provider value={dispatch}>
         {children}
-      </DispatchContext.Provider>
-    </AbilitiesContext.Provider>
+      </CharacterCreatorDispatchContext.Provider>
+    </CharacterCreatorContext.Provider>
   );
 }
