@@ -20,18 +20,20 @@ Aspects are your life experiences and the hella cool shit you can do
 interface AspectRowProps {
   name: string
   level: number
+  triggerIncrement: () => void
+  triggerDecrement: () => void
 }
 
 const AspectRow = (props: AspectRowProps) => {
   return (
     <div className='aspect-row'>
       <>
-        {props.name}: {props.level}
+        {props.name}
       </>
       <NumberInceDec
         value={props.level}
-        triggerIncrement={() => {}}
-        triggerDecrement={() => {}}
+        triggerIncrement={props.triggerIncrement}
+        triggerDecrement={props.triggerDecrement}
       ></NumberInceDec>
     </div>
   )
@@ -39,34 +41,29 @@ const AspectRow = (props: AspectRowProps) => {
 
 export const AspectsCreator = () => {
   const [availablePoints, setAvailablePoints] = useState(ASPECTS_STARTING_POINTS)
-  const aspectsList = useCharacterCreatorContext().aspects;
+  const aspects = useCharacterCreatorContext().aspects;
   const dispatch = useCharacterCreatorDispatch();
 
-  // TODO remove and replace with actual state
-  const dummyAspects = new Map<string, number>([
-    ['fightin', 5],
-    ['eatin', 4]
-  ])
-
-  const tryIncrementAbility = (ability: string): void => {
-    // if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
-    //   return
-    // }
+  const tryIncrementAspect = (aspect: string): void => {
+    // TODO check if aspect exists first?
+    if (availablePoints <= 0 || (aspects.get(aspect) >= ASPECTS_UPPER_BOUND)) {
+      return
+    }
     setAvailablePoints(availablePoints - 1)
     dispatch({
-      type: 'abilities/increment',
-      payload: ability
+      type: 'aspects/increment',
+      payload: {name: aspect}
     })
   }
 
-  const tryDecrementAbility = (ability: string): void => {
-    // //  if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
-    // //    return
-    // //  }
+  const tryDecrementAspect = (aspect: string): void => {
+    if ((aspects.get(aspect) <= ASPECTS_LOWER_BOUND)) {
+      return
+    }
     setAvailablePoints(availablePoints + 1)
     dispatch({
-      type: 'abilities/decrement',
-      payload: ability
+      type: 'aspects/decrement',
+      payload: {name: aspect}
     })
   }
 
@@ -75,11 +72,15 @@ export const AspectsCreator = () => {
     <div className='aspects-creator'>
       <div className='standard-text'>{ABILITIES_TEXT}</div>
       <div style={{display: 'grid', flexDirection: 'column'}}>
-        {Array.from(dummyAspects.entries()).map((aspect) => {
-          return (<AspectRow name={aspect[0]} level={aspect[1]}/>)
+        {Array.from(aspects.entries()).map((aspect) => {
+          return (<AspectRow
+            name={aspect[0]}
+            level={aspect[1]}
+            triggerIncrement={() => tryIncrementAspect(aspect[0])}
+            triggerDecrement={() => tryDecrementAspect(aspect[0])}
+          ></AspectRow>)
         })}
       </div>
-      {dummyAspects}
       <AvailablePoints
         availablePoints={availablePoints}
       ></AvailablePoints>

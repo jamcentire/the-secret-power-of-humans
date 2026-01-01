@@ -43,6 +43,31 @@ const reducer = (state: State, action: Action) => {
       }
     }
 
+    case 'aspects/increment': {
+      console.log('SAFSD')
+      const newAspects = new Map(state.aspects).set(
+        action.payload.name,
+        (state.aspects.get(action.payload.name) ?? 0) + 1
+      );
+
+      return {
+        ...state,
+        aspects: newAspects
+      }
+    }
+
+    case 'aspects/decrement': {
+      const newAspects = new Map(state.aspects).set(
+        action.payload.name,
+        (state.aspects.get(action.payload.name) ?? 0) - 1
+      );
+
+      return {
+        ...state,
+        aspects: newAspects
+      }
+    }
+
   }
 }
 
@@ -62,10 +87,15 @@ export const CharacterCreatorContextProvider = ({children}: any) => {
   const defaultAbilitiesMap = new Map<string, number>(
     Object.values(ABILITIES).map((ability) => [ability, 0])
   )
+  const dummyAspects = new Map<string, number>([
+    ['fightin', 5],
+    ['eatin', 4]
+  ])
 
   const defaultState = {
     abilities: defaultAbilitiesMap,
-    aspects: new Map()
+    aspects: dummyAspects
+    //aspects: new Map() // TODO put this back for dynamic adding/deleting
   }
 
   const [state, dispatch] = useReducer(reducer, defaultState)
