@@ -22,6 +22,7 @@ would have a strength of 6. For your case, the max score of 4 represents a stron
 
 export const AbilitiesCreator = () => {
   const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
+  // Can this abilitiesMap be punted further down (into the abilities table)?
   const abilitiesMap = useCharacterCreatorContext().abilities;
   const dispatch = useCharacterCreatorDispatch();
 

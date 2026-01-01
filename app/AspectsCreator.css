@@ -1,0 +1,19 @@
+.aspects-creator {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 3fr 3fr 2fr;
+    padding-top: 3em
+}
+
+.standard-text {
+    font-size: large;
+    text-align: center;
+    padding: 0 2em;
+    white-space: pre-wrap;
+}
+
+.aspect-row {
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+}
