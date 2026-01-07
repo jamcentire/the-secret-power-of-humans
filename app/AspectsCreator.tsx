@@ -27,9 +27,9 @@ interface AspectRowProps {
 const AspectRow = (props: AspectRowProps) => {
   return (
     <div className='aspect-row'>
-      <>
+      <div>
         {props.name}
-      </>
+      </div>
       <NumberInceDec
         value={props.level}
         triggerIncrement={props.triggerIncrement}
@@ -40,7 +40,8 @@ const AspectRow = (props: AspectRowProps) => {
 }
 
 export const AspectsCreator = () => {
-  const [availablePoints, setAvailablePoints] = useState(ASPECTS_STARTING_POINTS)
+  const [availablePoints, setAvailablePoints] = useState(ASPECTS_STARTING_POINTS);
+  const [newAspect, setNewAspect] = useState('');
   const aspects = useCharacterCreatorContext().aspects;
   const dispatch = useCharacterCreatorDispatch();
 
@@ -67,17 +68,30 @@ export const AspectsCreator = () => {
     })
   }
 
+  const createNewAspect = () => {
+    setAvailablePoints(availablePoints - 1)
+    dispatch({
+      type: 'aspects/create',
+      payload: {name: newAspect}
+    })
+  }
+
   // TODO: eventually move text styling into its own doc to avoid duplication
   return (
     <div className='aspects-creator'>
       <div className='standard-text'>{ABILITIES_TEXT}</div>
-      <div style={{display: 'grid', flexDirection: 'column'}}>
+      <div className='aspects-table'>
+        <div className='aspect-input-row'>
+          <input type='text' onChange={(e) => setNewAspect(e.target.value)}></input>
+          <div onClick={createNewAspect}>CREATE</div>
+        </div>
         {Array.from(aspects.entries()).map((aspect) => {
           return (<AspectRow
             name={aspect[0]}
             level={aspect[1]}
             triggerIncrement={() => tryIncrementAspect(aspect[0])}
             triggerDecrement={() => tryDecrementAspect(aspect[0])}
+            key={`${aspect[0]} - ${aspect[1]}`}
           ></AspectRow>)
         })}
       </div>

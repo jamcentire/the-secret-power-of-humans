@@ -12,8 +12,35 @@
     white-space: pre-wrap;
 }
 
+.aspects-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.aspect-input-row {
+    display: flex;
+    width: 10px;
+}
+
+.aspect-input-row > :nth-child(1) {
+    flex: 1;
+}
+
+.aspect-input-row > :nth-child(2) {
+    flex: 2;
+}
+
 .aspect-row {
-    display: grid;
-    flex-direction: row;
-    grid-template-columns: 1fr 1fr;
+    padding: 0.1em 0 0.1em 0.5em;
+    display: flex;
+    border: 2px solid black;
+    align-items: center;
+}
+
+.aspect-row > :nth-child(1) {
+    flex: 1;
+}
+
+.aspect-row > :nth-child(2) {
+    width: 100px;
 }
