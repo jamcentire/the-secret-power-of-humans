@@ -79,6 +79,15 @@ const reducer = (state: State, action: Action) => {
       }
     }
 
+    case 'aspects/delete': {
+      const newAspects = new Map(state.aspects);
+      newAspects.delete(action.payload.name)
+
+      return {
+        ...state,
+        aspects: newAspects
+      }
+    }
 
   }
 }

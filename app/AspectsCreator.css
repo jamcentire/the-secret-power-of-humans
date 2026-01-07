@@ -44,3 +44,7 @@
 .aspect-row > :nth-child(2) {
     width: 100px;
 }
+
+.aspect-row > :nth-child(3) {
+    width: 100px;
+}

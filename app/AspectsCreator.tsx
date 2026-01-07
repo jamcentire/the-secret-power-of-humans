@@ -1,5 +1,7 @@
 'use client'
 
+import { Trash } from 'lucide-react';
+
 import './AspectsCreator.css'
 
 import {
@@ -22,6 +24,7 @@ interface AspectRowProps {
   level: number
   triggerIncrement: () => void
   triggerDecrement: () => void
+  triggerDelete: () => void
 }
 
 const AspectRow = (props: AspectRowProps) => {
@@ -35,6 +38,8 @@ const AspectRow = (props: AspectRowProps) => {
         triggerIncrement={props.triggerIncrement}
         triggerDecrement={props.triggerDecrement}
       ></NumberInceDec>
+      <Trash onClick={props.triggerDelete}>
+      </Trash>
     </div>
   )
 }
@@ -69,10 +74,21 @@ export const AspectsCreator = () => {
   }
 
   const createNewAspect = () => {
+    if (aspects.has(newAspect) || (availablePoints <= 0)) {
+      return
+    }
     setAvailablePoints(availablePoints - 1)
     dispatch({
       type: 'aspects/create',
       payload: {name: newAspect}
+    })
+  }
+
+  const deleteAspect = (name: string) => {
+    setAvailablePoints(availablePoints + aspects.get(name))
+    dispatch({
+      type: 'aspects/delete',
+      payload: {name: name}
     })
   }
 
@@ -91,6 +107,7 @@ export const AspectsCreator = () => {
             level={aspect[1]}
             triggerIncrement={() => tryIncrementAspect(aspect[0])}
             triggerDecrement={() => tryDecrementAspect(aspect[0])}
+            triggerDelete={() => deleteAspect(aspect[0])}
             key={`${aspect[0]} - ${aspect[1]}`}
           ></AspectRow>)
         })}
