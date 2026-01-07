@@ -1,6 +1,6 @@
 .available-points-container {
-    display: grid;
-    grid-template-rows: 1fr 2fr;
+    display: flex;
+    flex-direction: column;
     justify-items: center;
 }
 

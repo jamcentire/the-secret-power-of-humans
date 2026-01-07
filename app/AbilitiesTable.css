@@ -10,8 +10,13 @@
 }
 
 .abilities-cell {
-    display: grid;
-    flex-direction: row;
-    grid-template-columns: 7em 5em;
-    width: fit-content;
+    display: flex;
+}
+
+.abilities-cell > :nth-child(1) {
+    flex: 7;
+}
+
+.abilities-cell > :nth-child(2) {
+    flex: 5;
 }

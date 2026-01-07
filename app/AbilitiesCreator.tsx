@@ -52,14 +52,16 @@ export const AbilitiesCreator = () => {
   return (
     <div className='abilities-creator'>
       <div className='standard-text'>{ABILITIES_TEXT}</div>
-      <AbilitiesTable 
-        availablePoints={availablePoints}
-        triggerDecrementAbility={tryDecrementAbility}
-        triggerIncrementAbility={tryIncrementAbility}
-      ></AbilitiesTable>
-      <AvailablePoints
-        availablePoints={availablePoints}
-      ></AvailablePoints>
+      <div>
+        <AvailablePoints
+          availablePoints={availablePoints}
+        ></AvailablePoints>
+        <AbilitiesTable
+          availablePoints={availablePoints}
+          triggerDecrementAbility={tryDecrementAbility}
+          triggerIncrementAbility={tryIncrementAbility}
+        ></AbilitiesTable>
+      </div>
     </div>
   )
 }

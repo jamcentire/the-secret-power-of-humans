@@ -1,6 +1,6 @@
 
 :root {
-  --background: rgb(111, 165, 216);
+  --background: grey;
   --foreground: #171717;
 }
 
@@ -22,4 +22,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.small-box {
+  flex: 1;
+}
+
+.medium-box {
+  flex: 2;
+}
+
+.large-box {
+  flex: 3;
 }

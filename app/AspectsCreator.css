@@ -1,7 +1,6 @@
 .aspects-creator {
-    align-items: center;
-    display: grid;
-    grid-template-columns: 3fr 1fr 2fr;
+    display: flex;
+    justify-content: center;
     padding-top: 3em
 }
 

@@ -97,24 +97,26 @@ export const AspectsCreator = () => {
     <div className='aspects-creator'>
       <div className='standard-text'>{ABILITIES_TEXT}</div>
       <div className='aspects-table'>
-        <div className='aspect-input-row'>
-          <input type='text' onChange={(e) => setNewAspect(e.target.value)}></input>
-          <div onClick={createNewAspect}>CREATE</div>
+        <AvailablePoints
+          availablePoints={availablePoints}
+        ></AvailablePoints>
+        <div>
+          <div className='aspect-input-row'>
+            <input type='text' onChange={(e) => setNewAspect(e.target.value)}></input>
+            <div onClick={createNewAspect}>CREATE</div>
+          </div>
+          {Array.from(aspects.entries()).map((aspect) => {
+            return (<AspectRow
+              name={aspect[0]}
+              level={aspect[1]}
+              triggerIncrement={() => tryIncrementAspect(aspect[0])}
+              triggerDecrement={() => tryDecrementAspect(aspect[0])}
+              triggerDelete={() => deleteAspect(aspect[0])}
+              key={`${aspect[0]} - ${aspect[1]}`}
+            ></AspectRow>)
+          })}
         </div>
-        {Array.from(aspects.entries()).map((aspect) => {
-          return (<AspectRow
-            name={aspect[0]}
-            level={aspect[1]}
-            triggerIncrement={() => tryIncrementAspect(aspect[0])}
-            triggerDecrement={() => tryDecrementAspect(aspect[0])}
-            triggerDelete={() => deleteAspect(aspect[0])}
-            key={`${aspect[0]} - ${aspect[1]}`}
-          ></AspectRow>)
-        })}
       </div>
-      <AvailablePoints
-        availablePoints={availablePoints}
-      ></AvailablePoints>
     </div>
   )
 }
