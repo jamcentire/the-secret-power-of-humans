@@ -1,12 +1,3 @@
 .abilities-creator {
-    justify-content: center;
     display: flex;
-    padding-top: 3em
-}
-
-.standard-text {
-    font-size: large;
-    text-align: center;
-    padding: 0 2em;
-    white-space: pre-wrap;
 }

@@ -15,10 +15,6 @@ import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './Chara
 import { AvailablePoints } from './AvailablePoints';
 import { NumberInceDec } from './NumberIncDec';
 
-const ABILITIES_TEXT = `
-Aspects are your life experiences and the hella cool shit you can do
-`
-
 interface AspectRowProps {
   name: string
   level: number
@@ -95,7 +91,6 @@ export const AspectsCreator = () => {
   // TODO: eventually move text styling into its own doc to avoid duplication
   return (
     <div className='aspects-creator'>
-      <div className='standard-text'>{ABILITIES_TEXT}</div>
       <div className='aspects-table'>
         <AvailablePoints
           availablePoints={availablePoints}

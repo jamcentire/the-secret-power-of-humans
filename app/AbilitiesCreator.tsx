@@ -13,12 +13,6 @@ import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './Chara
 import { AbilitiesTable } from './AbilitiesTable';
 import { AvailablePoints } from './AvailablePoints';
 
-const ABILITIES_TEXT = `
-Abilities represent your character's innate capacity for physical, mental and emotional feats. Choose your starting scores here. Scores range from -2 (terrible) to 4 (exceptional).
-
-These scores represent the abilities of normal people, which you will be playing! Albert Einstein would probably have an Intelligence of 6, and Hafthor Bjornson
-would have a strength of 6. For your case, the max score of 4 represents a strong enough ability that you don't know anybody who's better than you at this.
-`
 
 export const AbilitiesCreator = () => {
   const [availablePoints, setAvailablePoints] = useState(ABILITIES_STARTING_POINTS)
@@ -51,7 +45,6 @@ export const AbilitiesCreator = () => {
   // TODO: eventually move text styling into its own doc
   return (
     <div className='abilities-creator'>
-      <div className='standard-text'>{ABILITIES_TEXT}</div>
       <div>
         <AvailablePoints
           availablePoints={availablePoints}

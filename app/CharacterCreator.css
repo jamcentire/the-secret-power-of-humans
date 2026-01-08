@@ -1,0 +1,8 @@
+.character-creator {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 85%;
+    padding-top: 4em;
+    gap: 4em;
+}
