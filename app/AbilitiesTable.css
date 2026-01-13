@@ -1,12 +1,9 @@
 .abilities-table {
     display: grid;
-    margin: auto;
-    font-size: large;
+    font-size: 17px;
     grid-template-columns: repeat(3, 12em);
     grid-template-rows: repeat(3, 3em);
     width: fit-content;
-    align-self: center;
-    padding: auto;
 }
 
 .abilities-cell {

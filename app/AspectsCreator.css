@@ -1,5 +1,7 @@
 .aspects-creator {
     display: flex;
+    flex-direction: column;
+    gap: 2em;
 }
 
 .standard-text {
@@ -12,15 +14,20 @@
 .aspects-table {
     display: flex;
     flex-direction: column;
+    gap: 0.5em;
 }
 
 .aspect-input-row {
     display: flex;
-    width: 10px;
+    width: 20em;
+    gap: 1em;
+    margin-bottom: 1em;
+    padding-left: 1em;
 }
 
 .aspect-input-row > :nth-child(1) {
     flex: 1;
+    padding: 0.5em;
 }
 
 .aspect-input-row > :nth-child(2) {
@@ -32,6 +39,8 @@
     display: flex;
     border: 2px solid black;
     align-items: center;
+    width: 50%;
+    height: 1.8em;
 }
 
 .aspect-row > :nth-child(1) {
@@ -39,9 +48,13 @@
 }
 
 .aspect-row > :nth-child(2) {
-    width: 100px;
+    width: 6em;
 }
 
 .aspect-row > :nth-child(3) {
-    width: 100px;
+    width: 3em;
+}
+
+.aspect-row > :nth-child(3):hover {
+    cursor: pointer;
 }

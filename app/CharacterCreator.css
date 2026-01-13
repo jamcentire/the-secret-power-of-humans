@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 85%;
+    width: 65%;
     padding-top: 4em;
-    gap: 4em;
+    padding-bottom: 10em;
+    gap: 10em;
 }

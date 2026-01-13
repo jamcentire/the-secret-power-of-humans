@@ -14,12 +14,12 @@ interface ExplainerTextProps {
 const ExplainerText = (props: ExplainerTextProps) => {
   return (
     <div className='explainer-text'>
-      <div className='title'>
+      <text className='explainer-title'>
         {props.title}
-      </div>
-      <div className='body'>
+      </text>
+      <text className='explainer-body'>
         {props.body}
-      </div>
+      </text>
     </div>
   )
 }
@@ -34,7 +34,7 @@ export const CharacterCreatorSection = (props: CharacterCreatorSectionProps) => 
   return (
     <div className='character-creator-section'>
       <ExplainerText title={props.titleText} body={props.bodyText}/>
-      <div>{props.creator}</div>
+      {props.creator}
     </div>
   );
 }

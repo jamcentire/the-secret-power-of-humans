@@ -1,25 +1,30 @@
 .character-creator-section {
     display: flex;
+    gap: 5%;
+    justify-content: center;
 }
 
 .character-creator-section > :nth-child(1) {
-    flex: 2;
+    flex: 1;
 }
 
 .character-creator-section > :nth-child(2) {
-    flex: 3;
+    flex: 2;
 }
 
 .explainer-text {
+    display: flex;
+    flex-direction: column;
     text-align: left;
     padding: 0 2em;
     white-space: pre-wrap;
+    gap: 1em;
 }
 
-.explainer-text > .title {
+.explainer-text > .explainer-title {
     font-size: xx-large;
 }
 
-.explainer-text > .body {
+.explainer-text > .explainer-body {
     font-size: medium;
 }

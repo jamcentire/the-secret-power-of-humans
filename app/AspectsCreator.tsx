@@ -70,7 +70,7 @@ export const AspectsCreator = () => {
   }
 
   const createNewAspect = () => {
-    if (aspects.has(newAspect) || (availablePoints <= 0)) {
+    if (aspects.has(newAspect) || (availablePoints <= 0 || newAspect.length === 0)) {
       return
     }
     setAvailablePoints(availablePoints - 1)
@@ -91,26 +91,28 @@ export const AspectsCreator = () => {
   // TODO: eventually move text styling into its own doc to avoid duplication
   return (
     <div className='aspects-creator'>
-      <div className='aspects-table'>
         <AvailablePoints
           availablePoints={availablePoints}
         ></AvailablePoints>
-        <div>
-          <div className='aspect-input-row'>
-            <input type='text' onChange={(e) => setNewAspect(e.target.value)}></input>
-            <div onClick={createNewAspect}>CREATE</div>
-          </div>
-          {Array.from(aspects.entries()).map((aspect) => {
-            return (<AspectRow
-              name={aspect[0]}
-              level={aspect[1]}
-              triggerIncrement={() => tryIncrementAspect(aspect[0])}
-              triggerDecrement={() => tryDecrementAspect(aspect[0])}
-              triggerDelete={() => deleteAspect(aspect[0])}
-              key={`${aspect[0]} - ${aspect[1]}`}
-            ></AspectRow>)
-          })}
+      <div className='aspects-table'>
+        <div className='aspect-input-row'>
+          <input
+            onChange={(e) => setNewAspect(e.target.value)}
+            type='text'
+            placeholder='Enter your aspect here!'
+          ></input>
+          <button onClick={createNewAspect}>Add aspect</button>
         </div>
+        {Array.from(aspects.entries()).map((aspect) => {
+          return (<AspectRow
+            name={aspect[0]}
+            level={aspect[1]}
+            triggerIncrement={() => tryIncrementAspect(aspect[0])}
+            triggerDecrement={() => tryDecrementAspect(aspect[0])}
+            triggerDelete={() => deleteAspect(aspect[0])}
+            key={`${aspect[0]} - ${aspect[1]}`}
+          ></AspectRow>)
+        })}
       </div>
     </div>
   )

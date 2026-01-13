@@ -45,7 +45,6 @@ export const AbilitiesCreator = () => {
   // TODO: eventually move text styling into its own doc
   return (
     <div className='abilities-creator'>
-      <div>
         <AvailablePoints
           availablePoints={availablePoints}
         ></AvailablePoints>
@@ -54,7 +53,6 @@ export const AbilitiesCreator = () => {
           triggerDecrementAbility={tryDecrementAbility}
           triggerIncrementAbility={tryIncrementAbility}
         ></AbilitiesTable>
-      </div>
     </div>
   )
 }

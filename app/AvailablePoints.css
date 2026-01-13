@@ -1,20 +1,21 @@
 .available-points-container {
     display: flex;
     align-items: center;
+    gap: 1.2em;
 }
 
 .available-points-text {
-    font-size: xx-large;
+    font-size: 1.8em;
 }
 
 .available-points-value {
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    aspect-ratio: 1 / 1;
+    height: 0.6em;
 
-    border: 0.1em solid black;
-    font-size: x-large;
-    border-radius: 50%;
-    padding: 0.5em;
+    border: 0.12em solid black;
+    font-size: 1.8em;
+    border-radius: 40%;
+    padding: 0.4em;
 }
