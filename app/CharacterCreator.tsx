@@ -1,8 +1,11 @@
 import './globals.css';
 import './CharacterCreator.css';
 
+import { useState } from 'react';
+
 import { ASPECTS_TEXT, ABILITIES_TEXT } from './Text';
 
+import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
 import { AbilitiesCreator } from './AbilitiesCreator'
 import { AspectsCreator } from './AspectsCreator'
 import { CharacterCreatorSection } from './CharacterCreatorSection'
@@ -25,7 +28,37 @@ const ExplainerText = (props: ExplainerTextProps) => {
   )
 }
 
+interface NameInputProps {
+  onNameChange: (newName: string) => void;
+}
+
+const NameInput = (props: NameInputProps) => {
+  return (
+    <div className='name-input'>
+      <text>And what is this brave soul's name?</text>
+      <input onChange={(e) => props.onNameChange(e.target.value)}/>
+    </div>
+  )
+}
+
 export const CharacterCreator = () => {
+  const dispatch = useCharacterCreatorDispatch();
+  const name = useCharacterCreatorContext().name;
+  const [characterName, setCharacterName] = useState('');
+
+  const createCharacter = () => {
+    // TODO add checks for all points spent
+    // TODO add alert modal (or other) for failed character creation attempt
+    if (characterName.length === 0) {
+      return
+    }
+    dispatch({
+      type: 'name/create',
+      payload: {name: characterName}
+    })
+    console.log(name)
+  }
+
   return (
     <div className='character-creator'>
       <CharacterCreatorSection
@@ -38,6 +71,13 @@ export const CharacterCreator = () => {
         bodyText={ASPECTS_TEXT}
         creator={<AspectsCreator/>}
       ></CharacterCreatorSection>
+      <NameInput onNameChange={setCharacterName}/>
+      <div className='create-character-button-container'>
+        <button
+          className='create-character-button'
+          onClick={createCharacter}
+        >Create Character!</button>
+      </div>
     </div>
   )
 }

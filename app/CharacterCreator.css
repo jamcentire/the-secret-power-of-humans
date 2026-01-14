@@ -7,3 +7,27 @@
     padding-bottom: 10em;
     gap: 10em;
 }
+
+.name-input {
+    padding-left: 5%;
+    display: flex;
+    gap: 5%;
+    width: 50%;
+    align-items: center;
+    font-size: large;
+}
+
+.name-input > :nth-child(2) {
+    padding: 0.5em;
+}
+
+.create-character-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.create-character-button {
+    width: 20%;
+    font-size: large;
+    padding: 0.5em;
+}

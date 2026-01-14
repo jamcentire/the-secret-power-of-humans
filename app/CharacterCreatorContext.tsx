@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from 'react';
 import { ABILITIES } from './constants';
 
 type Action = 
+  | { type: 'name/create'; payload: { name: string } }
   | { type: 'abilities/increment'; payload: { name: string } }
   | { type: 'abilities/decrement'; payload: { name: string } }
   | { type: 'aspects/create'; payload: { name: string } }
@@ -10,6 +11,7 @@ type Action =
   | { type: 'aspects/decrement'; payload: { name: string } }
 
 interface State {
+  name: string
   abilities:  Map<string, number>
   aspects:  Map<string, number>
 }
@@ -18,6 +20,15 @@ const reducer = (state: State, action: Action) => {
   // TODO add default/fail case
   // TODO (bug fix): these action triggers twice on each single click
   switch (action.type) {
+
+    case 'name/create': {
+      const name = action.payload.name
+
+      return {
+        ...state,
+        name: name
+      }
+    }
 
     case 'abilities/increment': {
       const newAbilities = new Map(state.abilities).set(
@@ -110,6 +121,7 @@ export const CharacterCreatorContextProvider = ({children}: any) => {
   )
 
   const defaultState = {
+    name: '',
     abilities: defaultAbilitiesMap,
     aspects: new Map()
   }
