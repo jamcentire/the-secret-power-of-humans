@@ -41,6 +41,16 @@ const NameInput = (props: NameInputProps) => {
   )
 }
 
+const createCharacter = async () => {
+  const response = await fetch('/characters', { method: 'POST' })
+  console.log(await response.text())
+}
+
+const fetchCharacters = async () => {
+  const response = await fetch('/characters', { method: 'GET' })
+  console.log(await response.text())
+}
+
 export const CharacterCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
   const name = useCharacterCreatorContext().name;
@@ -56,7 +66,7 @@ export const CharacterCreator = () => {
       type: 'name/create',
       payload: {name: characterName}
     })
-    console.log(name)
+    createCharacter();
   }
 
   return (
@@ -78,6 +88,13 @@ export const CharacterCreator = () => {
           onClick={createCharacter}
         >Create Character!</button>
       </div>
+      <div className='create-character-button-container'>
+        <button
+          className='get-characters-button'
+          onClick={fetchCharacters}
+        >Fetch Characters!</button>
+      </div>
+
     </div>
   )
 }

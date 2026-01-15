@@ -21,7 +21,7 @@ export const AbilitiesCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
 
   const tryIncrementAbility = (ability: string): void => {
-    if (availablePoints <= 0 || abilitiesMap.get(ability) >= ABILITIES_UPPER_BOUND) {
+    if (availablePoints <= 0 || (abilitiesMap.get(ability) ?? ABILITIES_UPPER_BOUND + 1) >= ABILITIES_UPPER_BOUND) {
       return
     }
     setAvailablePoints(availablePoints - 1)
@@ -32,7 +32,7 @@ export const AbilitiesCreator = () => {
   }
 
   const tryDecrementAbility = (ability: string): void => {
-    if (abilitiesMap.get(ability) <= ABILITIES_LOWER_BOUND) {
+    if ((abilitiesMap.get(ability) ?? ABILITIES_LOWER_BOUND - 1) <= ABILITIES_LOWER_BOUND) {
       return
     }
     setAvailablePoints(availablePoints + 1)

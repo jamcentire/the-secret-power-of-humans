@@ -48,7 +48,8 @@ export const AspectsCreator = () => {
 
   const tryIncrementAspect = (aspect: string): void => {
     // TODO check if aspect exists first?
-    if (availablePoints <= 0 || (aspects.get(aspect) >= ASPECTS_UPPER_BOUND)) {
+    // TODO get rid of nullish coalescing
+    if (availablePoints <= 0 || ((aspects.get(aspect) ?? ASPECTS_UPPER_BOUND + 1) >= ASPECTS_UPPER_BOUND)) {
       return
     }
     setAvailablePoints(availablePoints - 1)
@@ -59,7 +60,8 @@ export const AspectsCreator = () => {
   }
 
   const tryDecrementAspect = (aspect: string): void => {
-    if ((aspects.get(aspect) <= ASPECTS_LOWER_BOUND)) {
+    // TODO get rid of nullish coalescing
+    if (((aspects.get(aspect) ?? ASPECTS_LOWER_BOUND - 1) <= ASPECTS_LOWER_BOUND)) {
       return
     }
     setAvailablePoints(availablePoints + 1)
@@ -81,7 +83,8 @@ export const AspectsCreator = () => {
   }
 
   const deleteAspect = (name: string) => {
-    setAvailablePoints(availablePoints + aspects.get(name))
+    // TODO get rid of nullish coalescing
+    setAvailablePoints(availablePoints + (aspects.get(name) ?? 0))
     dispatch({
       type: 'aspects/delete',
       payload: {name: name}
