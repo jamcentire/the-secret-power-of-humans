@@ -1,9 +1,11 @@
 import './globals.css';
 import './CharacterCreator.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ASPECTS_TEXT, ABILITIES_TEXT } from './Text';
+
+import { supabase } from '@/lib/supabase/client';
 
 import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
 import { AbilitiesCreator } from './AbilitiesCreator'
@@ -51,22 +53,41 @@ const fetchCharacters = async () => {
   console.log(await response.text())
 }
 
+const fetchSupaData = async (setData: any) => {
+  const { data, error } = await supabase.from('characters').select()
+  setData(data || {});
+}
+
+
 export const CharacterCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
   const name = useCharacterCreatorContext().name;
   const [characterName, setCharacterName] = useState('');
+  const [supaData, setSupaData] = useState({});
 
-  const createCharacter = () => {
+  // useEffect(() => {
+  //   console.log('herp')
+  //   fetchSupaData(setSupaData)
+  // })
+
+  const logSupaData = () => {
+    console.log(supaData)
+  }
+
+  const triggerCreateCharacter = () => {
     // TODO add checks for all points spent
     // TODO add alert modal (or other) for failed character creation attempt
-    if (characterName.length === 0) {
-      return
-    }
-    dispatch({
-      type: 'name/create',
-      payload: {name: characterName}
-    })
-    createCharacter();
+
+    // if (characterName.length === 0) {
+    //   return
+    // }
+    // dispatch({
+    //   type: 'name/create',
+    //   payload: {name: characterName}
+    // })
+    // createCharacter();
+
+    console.log(supaData)
   }
 
   return (
@@ -85,13 +106,13 @@ export const CharacterCreator = () => {
       <div className='create-character-button-container'>
         <button
           className='create-character-button'
-          onClick={createCharacter}
+          onClick={() => fetchSupaData(setSupaData)}
         >Create Character!</button>
       </div>
       <div className='create-character-button-container'>
         <button
           className='get-characters-button'
-          onClick={fetchCharacters}
+          onClick={logSupaData}
         >Fetch Characters!</button>
       </div>
 
