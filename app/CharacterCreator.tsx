@@ -12,23 +12,6 @@ import { AbilitiesCreator } from './AbilitiesCreator'
 import { AspectsCreator } from './AspectsCreator'
 import { CharacterCreatorSection } from './CharacterCreatorSection'
 
-interface ExplainerTextProps {
-  title: string
-  body: string
-}
-
-const ExplainerText = (props: ExplainerTextProps) => {
-  return (
-    <div className='explainer-text'>
-      <div className='title'>
-        {props.title}
-      </div>
-      <div className='body'>
-        {props.body}
-      </div>
-    </div>
-  )
-}
 
 interface NameInputProps {
   onNameChange: (newName: string) => void;
@@ -43,51 +26,45 @@ const NameInput = (props: NameInputProps) => {
   )
 }
 
-const createCharacter = async () => {
-  const response = await fetch('/characters', { method: 'POST' })
-  console.log(await response.text())
-}
 
-const fetchCharacters = async () => {
-  const response = await fetch('/characters', { method: 'GET' })
-  console.log(await response.text())
-}
-
-const fetchSupaData = async (setData: any) => {
-  const { data, error } = await supabase.from('characters').select()
-  setData(data || {});
+const fetchCharacterData = async (setCharacterData: any) => {
+  // TODO: this should be part of a parent function that also plugs characters into local state somewhere
+  //       (or maybe should just have a separate component that automatically renders chars in state)
+  // TODO: This should eventually run automatically on initial page load. It should eventually eventually
+  //       be accessible through a different "My Characters" tab/page
+  console.log('Dummy character data fetch (from db)!');
+  // const { data, error } = await supabase.from('characters').select()
+  // setCharacterData(data || {});
 }
 
 
 export const CharacterCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
-  const name = useCharacterCreatorContext().name;
   const [characterName, setCharacterName] = useState('');
-  const [supaData, setSupaData] = useState({});
 
-  // useEffect(() => {
-  //   console.log('herp')
-  //   fetchSupaData(setSupaData)
-  // })
-
-  const logSupaData = () => {
-    console.log(supaData)
+  const saveCharacterToDb = async () => {
+    console.log('Dummy character save (to db)!')
+    // const {error} = await supabase.from('characters').insert({
+    //   'id': 234,
+    //   'name': 'test insert name',
+    //   'player_id': 666,
+    //   'data': {'f1': 'str', 'f2': 1}
+    // })
   }
 
-  const triggerCreateCharacter = () => {
+  const createCharacter = () => {
     // TODO add checks for all points spent
     // TODO add alert modal (or other) for failed character creation attempt
+    if (characterName.length === 0) {
+      return
+    }
 
-    // if (characterName.length === 0) {
-    //   return
-    // }
-    // dispatch({
-    //   type: 'name/create',
-    //   payload: {name: characterName}
-    // })
-    // createCharacter();
+    dispatch({
+      type: 'name/create',
+      payload: {name: characterName}
+    })
 
-    console.log(supaData)
+    saveCharacterToDb()
   }
 
   return (
@@ -106,13 +83,13 @@ export const CharacterCreator = () => {
       <div className='create-character-button-container'>
         <button
           className='create-character-button'
-          onClick={() => fetchSupaData(setSupaData)}
+          onClick={createCharacter}
         >Create Character!</button>
       </div>
       <div className='create-character-button-container'>
         <button
           className='get-characters-button'
-          onClick={logSupaData}
+          onClick={() => fetchCharacterData(() => {})}
         >Fetch Characters!</button>
       </div>
 
