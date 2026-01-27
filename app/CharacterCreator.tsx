@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ASPECTS_TEXT, ABILITIES_TEXT } from './Text';
 
 import { supabase } from '@/lib/supabase/client';
+import { CharacterData } from './CharacterCreatorContext';
 
 import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
 import { AbilitiesCreator } from './AbilitiesCreator'
@@ -40,16 +41,28 @@ const fetchCharacterData = async (setCharacterData: any) => {
 
 export const CharacterCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
+  const charData = useCharacterCreatorContext();
   const [characterName, setCharacterName] = useState('');
+
+  // TODO Eventually move this to helper file (?)
+  const convertCharacterDataToObject = () => {
+    return {
+      name: charData.name,
+      abilities: Object.fromEntries(charData.abilities),
+      aspects: Object.fromEntries(charData.aspects),
+      archetype: null
+    }
+  }
 
   const saveCharacterToDb = async () => {
     console.log('Dummy character save (to db)!')
     // const {error} = await supabase.from('characters').insert({
-    //   'id': 234,
-    //   'name': 'test insert name',
-    //   'player_id': 666,
-    //   'data': {'f1': 'str', 'f2': 1}
+    //   'id': 8,
+    //   'name': 'test send data name',
+    //   'player_id': 664,
+    //   'data': convertCharacterDataToObject()
     // })
+    // console.log(error)
   }
 
   const createCharacter = () => {

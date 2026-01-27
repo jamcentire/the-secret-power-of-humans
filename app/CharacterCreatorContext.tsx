@@ -10,11 +10,23 @@ type Action =
   | { type: 'aspects/increment'; payload: { name: string } }
   | { type: 'aspects/decrement'; payload: { name: string } }
 
-interface State {
+
+  // TODO add level, description, id, archetypes
+export interface CharacterData {
+  name: string
+  abilities:  Map<string, number>
+  aspects:  Map<string, number>
+  // NOTE: Why is this a map? Feels like it could be a list since we don't need lookups by aspect name
+  archetypes: Object
+}
+
+// TODO abstract CharacterData from/to State
+export interface State {
   name: string
   abilities:  Map<string, number>
   aspects:  Map<string, number>
 }
+// TODO: add archetypes
 
 const reducer = (state: State, action: Action) => {
   // TODO add default/fail case
@@ -123,8 +135,10 @@ export const CharacterCreatorContextProvider = ({children}: any) => {
   const defaultState = {
     name: '',
     abilities: defaultAbilitiesMap,
-    aspects: new Map()
+    aspects: new Map(),
   }
+  // console.log('establishing context')
+  // console.log(defaultState)
 
   const [state, dispatch] = useReducer(reducer, defaultState)
 
