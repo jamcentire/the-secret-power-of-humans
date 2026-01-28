@@ -1,4 +1,3 @@
-import './globals.css';
 import './CharacterCreatorSection.css';
 
 import { ASPECTS_TEXT, ABILITIES_TEXT } from './Text';

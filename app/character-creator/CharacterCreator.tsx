@@ -1,4 +1,3 @@
-import './globals.css';
 import './CharacterCreator.css';
 
 import { useEffect, useState } from 'react';
