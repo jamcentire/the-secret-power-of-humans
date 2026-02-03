@@ -10,8 +10,7 @@ import { CharacterCreator } from './CharacterCreator';
 export default function CharacterCreation() {
   return (
     <>
-      <h1 className='page-title'>Welcome to The Secret Power of Humans!</h1>
-      <h2 className='page-subtitle'>A game about what ordinary people are capable of in extraordinary circumstances</h2>
+      <h1 className='page-title'>Create your character</h1>
       <CharacterCreatorContextProvider children={
         <CharacterCreator/>
       }

@@ -20,7 +20,7 @@ interface NameInputProps {
 const NameInput = (props: NameInputProps) => {
   return (
     <div className='name-input'>
-      <text>And what is this brave soul's name?</text>
+      <div>And what is this brave soul's name?</div>
       <input onChange={(e) => props.onNameChange(e.target.value)}/>
     </div>
   )

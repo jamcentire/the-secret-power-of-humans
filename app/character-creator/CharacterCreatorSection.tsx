@@ -13,12 +13,12 @@ interface ExplainerTextProps {
 const ExplainerText = (props: ExplainerTextProps) => {
   return (
     <div className='explainer-text'>
-      <text className='explainer-title'>
+      <div className='explainer-title'>
         {props.title}
-      </text>
-      <text className='explainer-body'>
+      </div>
+      <div className='explainer-body'>
         {props.body}
-      </text>
+      </div>
     </div>
   )
 }
