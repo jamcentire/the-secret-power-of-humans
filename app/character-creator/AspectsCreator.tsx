@@ -2,8 +2,6 @@
 
 import { Trash } from 'lucide-react';
 
-import './AspectsCreator.css'
-
 import {
   ASPECTS_STARTING_POINTS,
   ASPECTS_LOWER_BOUND,
@@ -16,26 +14,35 @@ import { AvailablePoints } from './AvailablePoints';
 import { NumberInceDec } from './NumberIncDec';
 
 interface AspectRowProps {
-  name: string
-  level: number
-  triggerIncrement: () => void
-  triggerDecrement: () => void
-  triggerDelete: () => void
+  name: string;
+  level: number;
+  triggerIncrement: () => void;
+  triggerDecrement: () => void;
+  triggerDelete: () => void;
 }
 
 const AspectRow = (props: AspectRowProps) => {
   return (
-    <div className='aspect-row'>
-      <div>
-        {props.name}
+    <div className="flex items-center w-1/2 h-[1.8em] border-2 border-black px-2.5 py-[0.1em]">
+      {/* Name */}
+      <div className="flex-1">{props.name}</div>
+
+      {/* Inc/dec component */}
+      <div className="w-[6em]">
+        <NumberInceDec
+          value={props.level}
+          triggerIncrement={props.triggerIncrement}
+          triggerDecrement={props.triggerDecrement}
+        />
       </div>
-      <NumberInceDec
-        value={props.level}
-        triggerIncrement={props.triggerIncrement}
-        triggerDecrement={props.triggerDecrement}
-      ></NumberInceDec>
-      <Trash onClick={props.triggerDelete}>
-      </Trash>
+
+      {/* Delete button */}
+      <div
+        className="w-[3em] hover:cursor-pointer flex items-center justify-center"
+        onClick={props.triggerDelete}
+      >
+        <Trash />
+      </div>
     </div>
   )
 }
@@ -46,76 +53,78 @@ export const AspectsCreator = () => {
   const aspects = useCharacterCreatorContext().aspects;
   const dispatch = useCharacterCreatorDispatch();
 
-  const tryIncrementAspect = (aspect: string): void => {
-    // TODO check if aspect exists first?
-    // TODO get rid of nullish coalescing
+  const tryIncrementAspect = (aspect: string) => {
     if (availablePoints <= 0 || ((aspects.get(aspect) ?? ASPECTS_UPPER_BOUND + 1) >= ASPECTS_UPPER_BOUND)) {
-      return
+      return;
     }
-    setAvailablePoints(availablePoints - 1)
+    setAvailablePoints(availablePoints - 1);
     dispatch({
       type: 'aspects/increment',
-      payload: {name: aspect}
-    })
+      payload: { name: aspect }
+    });
   }
 
-  const tryDecrementAspect = (aspect: string): void => {
-    // TODO get rid of nullish coalescing
+  const tryDecrementAspect = (aspect: string) => {
     if (((aspects.get(aspect) ?? ASPECTS_LOWER_BOUND - 1) <= ASPECTS_LOWER_BOUND)) {
-      return
+      return;
     }
-    setAvailablePoints(availablePoints + 1)
+    setAvailablePoints(availablePoints + 1);
     dispatch({
       type: 'aspects/decrement',
-      payload: {name: aspect}
-    })
+      payload: { name: aspect }
+    });
   }
 
   const createNewAspect = () => {
-    if (aspects.has(newAspect) || (availablePoints <= 0 || newAspect.length === 0)) {
-      return
+    if (aspects.has(newAspect) || availablePoints <= 0 || newAspect.length === 0) {
+      return;
     }
-    setAvailablePoints(availablePoints - 1)
+    setAvailablePoints(availablePoints - 1);
     dispatch({
       type: 'aspects/create',
-      payload: {name: newAspect}
-    })
+      payload: { name: newAspect }
+    });
   }
 
   const deleteAspect = (name: string) => {
-    // TODO get rid of nullish coalescing
-    setAvailablePoints(availablePoints + (aspects.get(name) ?? 0))
+    setAvailablePoints(availablePoints + (aspects.get(name) ?? 0));
     dispatch({
       type: 'aspects/delete',
-      payload: {name: name}
-    })
+      payload: { name: name }
+    });
   }
 
-  // TODO: eventually move text styling into its own doc to avoid duplication
   return (
-    <div className='aspects-creator'>
-        <AvailablePoints
-          availablePoints={availablePoints}
-        ></AvailablePoints>
-      <div className='aspects-table'>
-        <div className='aspect-input-row'>
+    <div className="flex flex-col gap-8">
+      {/* Available points display */}
+      <AvailablePoints availablePoints={availablePoints} />
+
+      {/* Aspects table */}
+      <div className="flex flex-col gap-2">
+        {/* Input row */}
+        <div className="flex w-[20em] gap-4 mb-4 pl-4">
           <input
+            type="text"
+            placeholder="Enter your aspect here!"
+            className="flex-1 p-2"
             onChange={(e) => setNewAspect(e.target.value)}
-            type='text'
-            placeholder='Enter your aspect here!'
-          ></input>
-          <button onClick={createNewAspect}>Add aspect</button>
+          />
+          <button className="flex-2 p-2" onClick={createNewAspect}>
+            Add aspect
+          </button>
         </div>
-        {Array.from(aspects.entries()).map((aspect) => {
-          return (<AspectRow
-            name={aspect[0]}
-            level={aspect[1]}
-            triggerIncrement={() => tryIncrementAspect(aspect[0])}
-            triggerDecrement={() => tryDecrementAspect(aspect[0])}
-            triggerDelete={() => deleteAspect(aspect[0])}
-            key={`${aspect[0]} - ${aspect[1]}`}
-          ></AspectRow>)
-        })}
+
+        {/* Existing aspects */}
+        {Array.from(aspects.entries()).map(([name, level]) => (
+          <AspectRow
+            key={`${name}-${level}`}
+            name={name}
+            level={level}
+            triggerIncrement={() => tryIncrementAspect(name)}
+            triggerDecrement={() => tryDecrementAspect(name)}
+            triggerDelete={() => deleteAspect(name)}
+          />
+        ))}
       </div>
     </div>
   )

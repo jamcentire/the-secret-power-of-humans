@@ -1,8 +1,5 @@
 'use client'
 
-import './AbilitiesTable.css';
-
-
 import { ABILITIES } from './constants';
 import { useCharacterCreatorContext } from './CharacterCreatorContext';
 import { NumberInceDec } from './NumberIncDec';
@@ -15,15 +12,19 @@ interface AbilitiesCellProps {
 }
 
 const AbilitiesCell = (props: AbilitiesCellProps) => {
-  // TODO: move the inc/dec toggle into its own component, to be reused by Aspects
   return (
-    <div className='abilities-cell'>
-      <div>{props.ability}</div>
-      <NumberInceDec
-        value={props.level} // TODO props drilling smell
-        triggerIncrement={props.triggerIncrement}
-        triggerDecrement={props.triggerDecrement}
-      />
+    <div className="flex">
+      {/* Ability name */}
+      <div className="flex-[7]">{props.ability}</div>
+
+      {/* Inc/dec component */}
+      <div className="flex-[5]">
+        <NumberInceDec
+          value={props.level}
+          triggerIncrement={props.triggerIncrement}
+          triggerDecrement={props.triggerDecrement}
+        />
+      </div>
     </div>
   )
 }
@@ -43,29 +44,35 @@ const ABILITIES_IN_TABLE_ORDER = [
   ABILITIES.DETERMINATION,
 ]
 
-// inc/dec shouldn't really be props of the table, since the non-creation table doesn't have them,
-// but idfk what do with this right now. Problem for future Jacob (you got this, brother)
 interface AbilitiesTableProps {
   availablePoints: number;
   triggerDecrementAbility: (ability: string) => void;
   triggerIncrementAbility: (ability: string) => void;
 }
 
-export const AbilitiesTable = ( props: AbilitiesTableProps ) => {
+export const AbilitiesTable = (props: AbilitiesTableProps) => {
   const characterState = useCharacterCreatorContext();
 
   return (
-    <div className='abilities-table'>
-      {[...ABILITIES_IN_TABLE_ORDER].map((ability) => {
-        return <div key={`${ability}-${characterState.abilities.get(ability)}`}>
+    <div
+      className="grid"
+      style={{
+        fontSize: '17px',
+        gridTemplateColumns: 'repeat(3, 12em)',
+        gridTemplateRows: 'repeat(3, 3em)',
+        width: 'fit-content',
+      }}
+    >
+      {ABILITIES_IN_TABLE_ORDER.map((ability) => (
+        <div key={`${ability}-${characterState.abilities.get(ability)}`}>
           <AbilitiesCell
             ability={ability}
             level={characterState.abilities.get(ability) ?? 0}
             triggerIncrement={() => props.triggerIncrementAbility(ability)}
             triggerDecrement={() => props.triggerDecrementAbility(ability)}
-          ></AbilitiesCell>
+          />
         </div>
-      })}
+      ))}
     </div>
   )
 }

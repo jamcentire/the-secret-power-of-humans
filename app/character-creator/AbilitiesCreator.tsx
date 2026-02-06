@@ -1,7 +1,5 @@
 'use client'
 
-import './AbilitiesCreator.css'
-
 import {
   ABILITIES_STARTING_POINTS,
   ABILITIES_LOWER_BOUND,
@@ -44,7 +42,7 @@ export const AbilitiesCreator = () => {
 
   // TODO: eventually move text styling into its own doc
   return (
-    <div className='abilities-creator'>
+    <div className='flex flex-col gap-8'>
         <AvailablePoints
           availablePoints={availablePoints}
         ></AvailablePoints>
