@@ -1,7 +1,5 @@
 'use client'
 
-import './page.css';
-
 import { CharacterCreatorContextProvider } from './CharacterCreatorContext';
 import { CharacterCreator } from './CharacterCreator';
 

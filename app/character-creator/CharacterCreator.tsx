@@ -1,5 +1,3 @@
-import './CharacterCreator.css';
-
 import { useEffect, useState } from 'react';
 
 import { ASPECTS_TEXT, ABILITIES_TEXT } from './Text';
@@ -8,10 +6,9 @@ import { supabase } from '@/lib/supabase/client';
 import { CharacterData } from './CharacterCreatorContext';
 
 import { useCharacterCreatorContext, useCharacterCreatorDispatch } from './CharacterCreatorContext';
-import { AbilitiesCreator } from './AbilitiesCreator'
-import { AspectsCreator } from './AspectsCreator'
-import { CharacterCreatorSection } from './CharacterCreatorSection'
-
+import { AbilitiesCreator } from './AbilitiesCreator';
+import { AspectsCreator } from './AspectsCreator';
+import { CharacterCreatorSection } from './CharacterCreatorSection';
 
 interface NameInputProps {
   onNameChange: (newName: string) => void;
@@ -19,42 +16,38 @@ interface NameInputProps {
 
 const NameInput = (props: NameInputProps) => {
   return (
-    <div className='name-input'>
+    <div className="flex items-center gap-[5%] w-1/2 pl-[5%] text-lg">
       <div>And what is this brave soul's name?</div>
-      <input onChange={(e) => props.onNameChange(e.target.value)}/>
+      <input
+        className="p-2" // 0.5em ≈ 2 tailwind padding units
+        onChange={(e) => props.onNameChange(e.target.value)}
+      />
     </div>
-  )
-}
-
+  );
+};
 
 const fetchCharacterData = async (setCharacterData: any) => {
-  // TODO: this should be part of a parent function that also plugs characters into local state somewhere
-  //       (or maybe should just have a separate component that automatically renders chars in state)
-  // TODO: This should eventually run automatically on initial page load. It should eventually eventually
-  //       be accessible through a different "My Characters" tab/page
   console.log('Dummy character data fetch (from db)!');
   // const { data, error } = await supabase.from('characters').select()
   // setCharacterData(data || {});
-}
-
+};
 
 export const CharacterCreator = () => {
   const dispatch = useCharacterCreatorDispatch();
   const charData = useCharacterCreatorContext();
   const [characterName, setCharacterName] = useState('');
 
-  // TODO Eventually move this to helper file (?)
   const convertCharacterDataToObject = () => {
     return {
       name: charData.name,
       abilities: Object.fromEntries(charData.abilities),
       aspects: Object.fromEntries(charData.aspects),
-      archetype: null
-    }
-  }
+      archetype: null,
+    };
+  };
 
   const saveCharacterToDb = async () => {
-    console.log('Dummy character save (to db)!')
+    console.log('Dummy character save (to db)!');
     // const {error} = await supabase.from('characters').insert({
     //   'id': 8,
     //   'name': 'test send data name',
@@ -62,49 +55,56 @@ export const CharacterCreator = () => {
     //   'data': convertCharacterDataToObject()
     // })
     // console.log(error)
-  }
+  };
 
   const createCharacter = () => {
-    // TODO add checks for all points spent
-    // TODO add alert modal (or other) for failed character creation attempt
-    if (characterName.length === 0) {
-      return
-    }
+    if (characterName.length === 0) return;
 
     dispatch({
       type: 'name/create',
-      payload: {name: characterName}
-    })
+      payload: { name: characterName },
+    });
 
-    saveCharacterToDb()
-  }
+    saveCharacterToDb();
+  };
 
   return (
-    <div className='character-creator'>
+    <div className="flex flex-col gap-[10em] w-[65%] mx-auto pt-16 pb-[10em]">
+      {/* Abilities Section */}
       <CharacterCreatorSection
-        titleText={'Abilities'}
+        titleText="Abilities"
         bodyText={ABILITIES_TEXT}
-        creator={<AbilitiesCreator/>}
-      ></CharacterCreatorSection>
+        creator={<AbilitiesCreator />}
+      />
+
+      {/* Aspects Section */}
       <CharacterCreatorSection
-        titleText={'Aspects'}
+        titleText="Aspects"
         bodyText={ASPECTS_TEXT}
-        creator={<AspectsCreator/>}
-      ></CharacterCreatorSection>
-      <NameInput onNameChange={setCharacterName}/>
-      <div className='create-character-button-container'>
+        creator={<AspectsCreator />}
+      />
+
+      {/* Name Input */}
+      <NameInput onNameChange={setCharacterName} />
+
+      {/* Buttons */}
+      <div className="flex justify-center">
         <button
-          className='create-character-button'
+          className="w-1/5 text-lg p-2"
           onClick={createCharacter}
-        >Create Character!</button>
-      </div>
-      <div className='create-character-button-container'>
-        <button
-          className='get-characters-button'
-          onClick={() => fetchCharacterData(() => {})}
-        >Fetch Characters!</button>
+        >
+          Create Character!
+        </button>
       </div>
 
+      <div className="flex justify-center">
+        <button
+          className="w-1/5 text-lg p-2"
+          onClick={() => fetchCharacterData(() => {})}
+        >
+          Fetch Characters!
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
